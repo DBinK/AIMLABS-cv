@@ -1,4 +1,3 @@
-import pyautogui
 import pydirectinput
 
 pydirectinput.moveTo(100, 150) # 将鼠标移动到坐标(100, 150)的位置
