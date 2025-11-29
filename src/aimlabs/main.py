@@ -1,23 +1,36 @@
-import dxcam
-import cv2
-
+# import dxcam
+from pydirectinput import click
+from numpy import array
+import dxcam_cpp as dxcam
 from looptick import LoopTick
 
+i = 1
+
+WIDTH = 3840
+HEIGHT = 2160
 
 loop = LoopTick()
-camera = dxcam.create(0, region=(0,0,1280,720))  # 默认主显示器
-camera.start(target_fps=60, video_mode=True)  # 启动捕获
+camera = dxcam.create(
+    0, region=(int(WIDTH/2), int(HEIGHT/2), int(WIDTH/2 + i), int(HEIGHT/2 + i),)
+)
+camera.start(target_fps=120)  # 启动捕获
 
-# cv2.namedWindow("Screen", cv2.WINDOW_NORMAL) 
+red = array([[[230, 55, 55]]])
+
+last_frame = array([[[0, 0, 0]]])
+
+mx = int(WIDTH/2)
+my = int(HEIGHT/2)
 
 while True:
-    frame = camera.get_latest_frame()  # 获取最新帧（非阻塞）
+    frame = camera.grab()
     if frame is not None:
         loop.tick()
         hz = loop.get_avg_hz()
         print(hz)
-        # pose_kpts = mp.detect_pose(frame)
+
+        if (last_frame == red).any() and (frame != red).any():
+            click(mx, my)
+            
+        last_frame = frame
         
-        cv2.imshow("Screen", frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
