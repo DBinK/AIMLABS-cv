@@ -6,8 +6,13 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dxcam>=0.0.5",
+    "looptick>=0.1.4",
     "opencv-python>=4.11.0.86",
     "pillow>=11.2.1",
     "pyautogui>=0.9.54",
     "pydirectinput>=1.0.4",
 ]
+
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
